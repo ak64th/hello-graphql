@@ -1,0 +1,44 @@
+{
+  "name": "hello-graphql-babel-ts",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Hello, GraphQL.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node --extensions '.ts' src/index.ts",
+    "build": "babel src --extensions '.ts' --ignore 'src/**/*.spec.ts' --out-dir dist",
+    "serve": "node dist/index.js",
+    "test": "mocha --require ./babel-register.js 'src/**/*.spec.ts'",
+    "lint": "eslint --ext .ts  --ignore-pattern *.spec.ts src"
+  },
+  "author": "Elmer Yu",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.2",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@babel/register": "^7.4.4",
+    "@types/express": "^4.17.0",
+    "@types/node": "^12.6.1",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "axios": "^0.19.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "apollo-server": "^2.6.3",
+    "apollo-server-express": "^2.6.3",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "graphql": "^14.3.1",
+    "uuid": "^3.3.2"
+  }
+}
