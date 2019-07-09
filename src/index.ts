@@ -3,7 +3,7 @@ import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import uuid from 'uuid';
 
-import { User, Message } from './types';
+import { Message, User } from './types';
 
 const app = express();
 
@@ -65,11 +65,11 @@ const resolvers = {
     },
     user: (parent, {id}): User => users[id],
 
-    messages: () => Object.values(messages),
-    message: (parent, {id}) => messages[id],
+    messages: (): Message[] => Object.values(messages),
+    message: (parent, {id}): Message => messages[id],
   },
   Mutation: {
-    createMessage: (parent, args, context) => {
+    createMessage: (parent, args, context): Message => {
       const message = {
         id: uuid(),
         text: args.text,
@@ -78,7 +78,7 @@ const resolvers = {
       messages[message.id] = message;
       return message;
     },
-    deleteMessage: (parent, args) => {
+    deleteMessage: (parent, args): boolean => {
       const {[args.id]: message, ...otherMessages} = messages;
       if (message) {
         messages = otherMessages;
@@ -89,15 +89,15 @@ const resolvers = {
   },
 
   User: {
-    username: (parent) => parent.username,
-    messages: (parent) => {
+    username: (parent): string => parent.username,
+    messages: (parent): Message[] => {
       return Object.values(messages).filter(
-        message => message.userId === parent.id
+        (message): boolean => message.userId === parent.id
       );
     },
   },
   Message: {
-    user: (parent) => users[parent.userId],
+    user: (parent): User => users[parent.userId],
   }
 };
 
@@ -113,6 +113,6 @@ server.applyMiddleware({app, path: '/graphql', cors: true});
 
 const {PORT: port = 8000} = process.env;
 
-app.listen({port}, () => {
+app.listen({port}, (): void => {
   console.log(`Apollo Server on http://localhost:${port}/graphql`);
 });
